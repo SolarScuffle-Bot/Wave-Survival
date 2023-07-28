@@ -4,7 +4,7 @@
 		"$className": "DataModel",
 
 		"ReplicatedFirst": {
-			"$path": "src/Shared/First"
+			"$path": "src/SharedFirst"
 		},
 
 		"ReplicatedStorage": {
@@ -20,16 +20,16 @@
 		},
 
 		"ServerStorage": {
-			"$path": "src/Server/Storage"
+			"$path": "src/ServerStorage"
 		},
 
 		"StarterPlayer": {
 			"StarterPlayerScripts": {
-				"$path": "src/Client"
+				"$path": "src/Player"
 			},
 
 			"StarterCharacterScripts": {
-				"$path": "src/Client/Character"
+				"$path": "src/Character"
 			}
 		}
 	}
