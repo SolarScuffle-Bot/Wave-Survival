@@ -1,0 +1,36 @@
+{
+	"name": "Wave Survival",
+	"tree": {
+		"$className": "DataModel",
+
+		"ReplicatedFirst": {
+			"$path": "src/Shared/First"
+		},
+
+		"ReplicatedStorage": {
+			"$path": "src/Shared",
+
+			"Packages": {
+				"$path": "Packages"
+			}
+		},
+
+		"ServerScriptService": {
+			"$path": "src/Server"
+		},
+
+		"ServerStorage": {
+			"$path": "src/Server/Storage"
+		},
+
+		"StarterPlayer": {
+			"StarterPlayerScripts": {
+				"$path": "src/Client"
+			},
+
+			"StarterCharacterScripts": {
+				"$path": "src/Client/Character"
+			}
+		}
+	}
+}

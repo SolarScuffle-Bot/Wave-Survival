@@ -1,0 +1,11 @@
+[package]
+name = "do-not-publish/wave-survival"
+version = "1.0.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]
+signal = "lucasmzreal/fastsignal@10.2.1"
+net = "ffrostflame/bridgenet@2.0.0-rc4"
+stew = "data-oriented-house/stew@2.2.1"
+sandwich = "data-oriented-house/sandwich@2.0.1"
