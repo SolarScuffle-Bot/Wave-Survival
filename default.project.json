@@ -31,6 +31,18 @@
 			"StarterCharacterScripts": {
 				"$path": "src/Character"
 			}
+		},
+
+		"Workspace": {
+			"Baseplate": {
+				"$className": "Part",
+				"$properties": {
+					"Anchored": true,
+					"Position": [0, -8, 0],
+					"Size": [512, 16, 512],
+					"Color": [0.388235, 0.372549, 0.384314]
+				}
+			}
 		}
 	}
 }
