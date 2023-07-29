@@ -1,8 +1,22 @@
+--!strict
+
 local ServerScriptService = game:GetService 'ServerScriptService'
-local worlds = require(ServerScriptService.worlds)
+local World = require(ServerScriptService.world)
+local Chase = require(ServerScriptService.components.chase)
 
-local module = {}
+local Module = {}
 
-worlds.Component.Build(script.Name, module)
+function Module.create(factory, entity: Model)
+	task.defer(function()
+		-- Though not true, I'll assume all enemies just follow the player
+		Chase.factory.add(entity)
+	end)
 
-return module
+	return true
+end
+
+Module.factory = World.factory(script.Name, Module)
+
+export type Enemy = typeof(Module.create(...))
+
+return Module

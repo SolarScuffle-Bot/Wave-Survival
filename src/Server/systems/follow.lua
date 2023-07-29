@@ -1,18 +1,26 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService 'ServerScriptService'
 
-local schedules = require(ServerScriptService.schedules)
-local worlds = require(ServerScriptService.worlds)
+local Schedules = require(ServerScriptService.schedules)
+local World = require(ServerScriptService.world)
+local Follow = require(ServerScriptService.components.follow)
 
-return schedules.heartbeat.new(function()
-	for entity in worlds.Collection.Get {'enemy', 'follow'} do
-		-- local enemy =  worlds.Component.Get(entity, 'enemy')
-		local follow = worlds.Component.Get(entity, 'follow')
+local Module = {}
 
-		local linearVelocity = follow.linearVelocity :: LinearVelocity
-		linearVelocity.VectorVelocity = Vector3.new(1, 0, 1) * math.random() * 100
+Module.speed = 10
 
-		local alignOrientation = follow.alignOrientation :: AlignOrientation
-		alignOrientation.Target = Vector3.yAxis * math.random() * 2 * math.pi
+Module.job = Schedules.heartbeat.job(function()
+	for entity: Model, data in World.query { Follow.factory } do
+		local follow = data.follow :: Follow.Follow
+
+		local there = follow.target:GetPivot()
+		local here = entity:GetPivot()
+
+		local targetDelta = (there.Position - here.Position).Unit
+		local targetRotation = (here:Inverse() * there).Rotation
+
+		follow.linearVelocity.VectorVelocity = targetDelta * Module.speed
+		follow.alignOrientation.CFrame = targetRotation
 	end
 end)
+
+return Module

@@ -1,26 +1,40 @@
 local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 local ServerScriptService = game:GetService 'ServerScriptService'
+local Enemy = require(ServerScriptService.components.enemy)
+local Repel = require(ServerScriptService.components.repel)
 
-local schedules = require(ServerScriptService.schedules)
-local worlds = require(ServerScriptService.worlds)
+local Enemies = ReplicatedStorage.Enemies
 
-local spawning = false
-local lastSpawnTime = 0
+local Module = {}
 
-return schedules.heartbeat.new(function(dt: number)
-	local enemyCount = #worlds.Collection.Get { 'enemy' }
-    if enemyCount == 0 then
-        spawning = true
-    elseif enemyCount == 10 then
-        spawning = false
-    end
+Module.count = 0
 
-    if spawning then
-        local now = time()
-        if now - lastSpawnTime > 0.5 then
-            lastSpawnTime = now
-            local entity = worlds.Entity.Create()
-            worlds.Component.Create(entity, "enemy")
+function Module.startRound()
+    Module.roundThread = task.defer(function()
+        Module.count = 10
+
+        for i = 1, Module.count do
+            task.wait(1)
+
+            local entity = Enemies.Gooblet:Clone()
+            entity.Parent = workspace
+
+            Enemy.factory.add(entity)
+            Repel.factory.add(entity)
+
+            print('spawning enemy', i, entity:GetFullName())
         end
+
+        Module.roundThread = nil
+    end)
+end
+
+Module.added = Enemy.factory.removed:Connect(function()
+    Module.count -= 1
+    if Module.count <= 0 then
+        task.wait(5)
+        Module.startRound()
     end
 end)
+
+return Module

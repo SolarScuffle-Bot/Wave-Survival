@@ -1,6 +1,6 @@
 local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 
 local Packages = ReplicatedStorage:WaitForChild 'Packages'
-local stew = require(Packages.stew)
+local Stew = require(Packages.Stew)
 
-return stew.World.Create()
+return Stew.world()

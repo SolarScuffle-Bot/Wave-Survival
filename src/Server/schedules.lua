@@ -1,15 +1,9 @@
 local ReplicatedStorage = game:GetService 'ReplicatedStorage'
-local RunService = game:GetService 'RunService'
-
 local Packages = ReplicatedStorage:WaitForChild 'Packages'
-local sandwich = require(Packages.sandwich)
+local Sandwich = require(Packages.Sandwich)
 
-local module = {}
+local Module = {}
 
-module.heartbeat = sandwich.new()
+Module.heartbeat = Sandwich.schedule()
 
-RunService.Heartbeat:Connect(function(dt)
-	module.heartbeat.start(dt)
-end)
-
-return module
+return Module

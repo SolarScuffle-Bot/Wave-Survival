@@ -1,22 +1,34 @@
+--!strict
+
 local ServerScriptService = game:GetService 'ServerScriptService'
-local worlds = require(ServerScriptService.worlds)
+local World = require(ServerScriptService.world)
 
-local Follow = {}
+local Module = {}
 
-function Follow.Constructor(entity: any, name: string, target: PVInstance)
-	local primary = entity.PrimaryPart
-	if not primary then
+function Module.create(factory, entity: Model, target: Model)
+	local entityPrimary = entity.PrimaryPart
+	if not entityPrimary then
 		error('No primary part found for entity ' .. entity:GetFullName())
 	end
 
-	local linearVelocity = primary:FindFirstAncestorWhichIsA('LinearVelocity')
+	local targetPrimary = target.PrimaryPart
+	if not targetPrimary then
+		error('No primary part found for target ' .. target:GetFullName())
+	end
+
+	local linearVelocity = entityPrimary:FindFirstChildWhichIsA('LinearVelocity')
 	if not linearVelocity then
 		error('No linear velocity found for entity ' .. entity:GetFullName())
 	end
 
-	local alignOrientation = primary:FindFirstAncestorWhichIsA('AlignOrientation')
+	local alignOrientation = entityPrimary:FindFirstChildWhichIsA('AlignOrientation')
 	if not alignOrientation then
 		error('No align orientation found for entity ' .. entity:GetFullName())
+	end
+
+	local entityAttachment = entityPrimary:FindFirstChildWhichIsA('Attachment')
+	if not entityAttachment then
+		error('No attachment found for entity ' .. entity:GetFullName())
 	end
 
 	if not target.Parent then
@@ -28,34 +40,18 @@ function Follow.Constructor(entity: any, name: string, target: PVInstance)
 		alignOrientation = alignOrientation,
 		target = target,
 		targetDestroying = target.Destroying:Connect(function()
-			worlds.Component.Delete(entity, name)
+			factory.remove(entity)
 		end),
 	}
 end
 
-function Follow.Destructor(entity, name: string)
-	local follow = worlds.Component.Get(entity, name)
+function Module.delete(factory, entity: Model, follow: Follow)
 	follow.targetDestroying:Disconnect()
+	return nil
 end
 
-worlds.Component.Build(script.Name, Follow)
+Module.factory = World.factory(script.Name, Module)
 
-export type Follow = typeof(Follow.Constructor(...))
+export type Follow = typeof(Module.create(...))
 
-local module = {}
-
-function module.update(follow: Follow)
-	local target = follow.target
-	local targetPosition = target.Position
-	local targetOrientation = target.Orientation
-	local targetVelocity = target.Velocity
-
-	local linearVelocity = follow.linearVelocity
-	local alignOrientation = follow.alignOrientation
-
-	linearVelocity.Target = targetPosition
-	alignOrientation.Target = targetOrientation
-end
-
-
-return module
+return Module
