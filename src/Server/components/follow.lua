@@ -1,22 +1,9 @@
 local ServerScriptService = game:GetService 'ServerScriptService'
 local worlds = require(ServerScriptService.worlds)
 
-local module = {}
+local Follow = {}
 
-function module.update(follow: Follow)
-	local target = follow.target
-	local targetPosition = target.Position
-	local targetOrientation = target.Orientation
-	local targetVelocity = target.Velocity
-
-	local linearVelocity = follow.linearVelocity
-	local alignOrientation = follow.alignOrientation
-
-	linearVelocity.Target = targetPosition
-	alignOrientation.Target = targetOrientation
-end
-
-function module.Constructor(entity: any, name: string, target: PVInstance)
+function Follow.Constructor(entity: any, name: string, target: PVInstance)
 	local primary = entity.PrimaryPart
 	if not primary then
 		error('No primary part found for entity ' .. entity:GetFullName())
@@ -40,19 +27,35 @@ function module.Constructor(entity: any, name: string, target: PVInstance)
 		linearVelocity = linearVelocity,
 		alignOrientation = alignOrientation,
 		target = target,
-		targetDestorying = target.Destroying:Connect(function()
+		targetDestroying = target.Destroying:Connect(function()
 			worlds.Component.Delete(entity, name)
 		end),
 	}
 end
 
-function module.Destructor(entity, name: string)
+function Follow.Destructor(entity, name: string)
 	local follow = worlds.Component.Get(entity, name)
-	follow.targetDestorying:Disconnect()
+	follow.targetDestroying:Disconnect()
 end
 
-worlds.Component.Build(script.Name, module)
+worlds.Component.Build(script.Name, Follow)
 
-export type Follow = typeof(module.Constructor())
+export type Follow = typeof(Follow.Constructor(...))
+
+local module = {}
+
+function module.update(follow: Follow)
+	local target = follow.target
+	local targetPosition = target.Position
+	local targetOrientation = target.Orientation
+	local targetVelocity = target.Velocity
+
+	local linearVelocity = follow.linearVelocity
+	local alignOrientation = follow.alignOrientation
+
+	linearVelocity.Target = targetPosition
+	alignOrientation.Target = targetOrientation
+end
+
 
 return module

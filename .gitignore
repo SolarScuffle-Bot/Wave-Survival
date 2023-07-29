@@ -4,5 +4,6 @@ build
 Packages/*
 sourcemap.json
 *.lock
+*.rbxlx
 
 selene.toml
