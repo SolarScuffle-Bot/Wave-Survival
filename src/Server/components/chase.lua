@@ -1,31 +1,43 @@
 --!strict
 
 local ServerScriptService = game:GetService 'ServerScriptService'
+local ReplicatedStorage = game:GetService 'ReplicatedStorage'
+
 local World = require(ServerScriptService.world)
 local Follow = require(ServerScriptService.components.follow)
+
+local Connect = require(ReplicatedStorage.connect)
 
 local Module = {}
 
 function Module.setTarget(entity: Model, target: Model?)
-	local chase = World.get(entity).chase :: Chase
+	local chase = World.get(entity).chase :: Chase?
+	if not chase then
+		return
+	end
 
 	if chase.target == target then
 		return
 	end
 
-	if chase.destroyed then
-		chase.destroyed:Disconnect()
-		chase.destroyed = nil
-		chase.target = nil
-
+	if chase.target then
+		Connect.disconnect(chase, 'destroyed')
+		Connect.disconnect(chase, 'died')
 		Follow.factory.remove(entity)
 	end
 
 	if target then
-		chase.target = target
-		chase.destroyed = target.Destroying:Connect(function()
+		local function stop()
 			Module.setTarget(entity, nil)
-		end)
+		end
+
+		chase.target = target
+		chase.destroyed = target.Destroying:Connect(stop)
+
+		local humanoid = target:FindFirstChildWhichIsA('Humanoid', true) :: Humanoid?
+		if humanoid then
+			chase.died = humanoid.Died:Connect(stop)
+		end
 
 		Follow.factory.add(entity, target)
 	end
@@ -42,6 +54,7 @@ function Module.add(factory, entity: Model, model: Model, settings: {
 		angularSpeed = settings and settings.angularSpeed or 10,
 		target = nil :: Model?,
 		destroyed = nil :: RBXScriptConnection?,
+		died = nil :: RBXScriptConnection?,
 	}
 end
 

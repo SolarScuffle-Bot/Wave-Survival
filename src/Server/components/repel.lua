@@ -1,9 +1,12 @@
 --!strict
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService 'ServerScriptService'
 
 local World = require(ServerScriptService.world)
 local Move = require(ServerScriptService.components.move)
+
+local Connect = require(ReplicatedStorage.connect)
 
 local function newVectorForce(attachment: Attachment)
 	local vectorForce = Instance.new 'VectorForce'
@@ -46,7 +49,7 @@ function Module.add(factory, entity: Model, settings: {
 
 	local range = settings and settings.range or 20
 	local force = settings and settings.force or 1.5
-	local maxForce = settings and settings.maxForce or 10
+	local maxForce = settings and settings.maxForce or 5
 	local threshold = settings and settings.threshold or range
 
 	return {
@@ -62,8 +65,7 @@ function Module.add(factory, entity: Model, settings: {
 end
 
 function Module.remove(factory, entity: Model, repel: Repel)
-	repel.vectorDestroying:Disconnect()
-	repel.vectorForce:Destroy()
+	Connect.disconnect(repel)
 	return nil
 end
 

@@ -21,7 +21,7 @@ function Module.remove(factory, entity: Model, follow: Follow)
 
 	local move = World.get(entity).move :: Move.Move?
 	if move then
-		move.linearVelocity.VectorVelocity = -Vector3.yAxis
+		move.linearVelocity.VectorVelocity = Vector3.zero
 	end
 
 	return nil

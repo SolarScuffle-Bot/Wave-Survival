@@ -31,11 +31,12 @@ function Module.startRound()
 
 			local entity = Gooblet:Clone() :: Model
 			entity:PivotTo(entity:GetPivot() * CFrame.new(10 * i, 10 * i, 10 * i))
-			entity.Parent = workspace
 
 			Move.factory.add(entity)
 			Enemy.factory.add(entity)
 			Repel.factory.add(entity)
+
+            entity.Parent = workspace
 
 			print('spawning enemy', i, entity:GetFullName())
 		end
@@ -44,7 +45,7 @@ function Module.startRound()
 	end)
 end
 
-Module.added = Enemy.factory.removed:Connect(function()
+Module.added = Enemy.factory.removed:Connect(function(entity: Model, enemy: Enemy.Enemy)
 	Module.currentCount -= 1
 	if Module.currentCount <= 0 then
 		task.wait(5)

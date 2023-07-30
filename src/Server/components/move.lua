@@ -1,7 +1,10 @@
 --!strict
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService 'ServerScriptService'
 local World = require(ServerScriptService.world)
+
+local Connect = require(ReplicatedStorage.connect)
 
 local Module = {}
 
@@ -63,12 +66,21 @@ function Module.add(factory: typeof(Module.factory), entity: Model)
 end
 
 function Module.remove(factory, entity: Model, move: Move)
-	move.linearDestroying:Disconnect()
-	move.alignDestroying:Disconnect()
+	Connect.disconnect(move)
+	-- move.linearDestroying:Disconnect()
+	-- move.alignDestroying:Disconnect()
 
-	move.attachment:Destroy()
-	move.linearVelocity:Destroy()
-	move.alignOrientation:Destroy()
+	-- pcall(function()
+	-- 	move.attachment:Destroy()
+	-- end)
+
+	-- pcall(function()
+	-- 	move.linearVelocity:Destroy()
+	-- end)
+
+	-- pcall(function()
+	-- 	move.alignOrientation:Destroy()
+	-- end)
 
 	return nil
 end
