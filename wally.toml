@@ -7,5 +7,5 @@ realm = "shared"
 [dependencies]
 Signal = "lucasmzreal/fastsignal@10.2.1"
 Net = "ffrostflame/bridgenet@2.0.0-rc4"
-Stew = "data-oriented-house/rbxstew@0.2.6"
+Stew = "data-oriented-house/rbxstew@0.2.9"
 Sandwich = "data-oriented-house/sandwich@2.1.0"

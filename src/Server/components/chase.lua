@@ -5,7 +5,7 @@ local Follow = require(ServerScriptService.components.follow)
 local Module = {}
 
 function Module.setTarget(entity: Model, target: Model?)
-	local chase = World.get(entity)[script.Name] :: Chase
+	local chase = World.get(entity).chase :: Chase
 
 	if chase.target == target then
 		return
@@ -29,8 +29,15 @@ function Module.setTarget(entity: Model, target: Model?)
 	end
 end
 
-function Module.create(factory, entity: Model, model: Model)
+function Module.add(factory, entity: Model, model: Model, settings: {
+	range: number?,
+	linearSpeed: number?,
+	angularSpeed: number?,
+}?)
 	return {
+		range = settings and settings.range or math.huge,
+		linearSpeed = settings and settings.linearSpeed or 10,
+		angularSpeed = settings and settings.angularSpeed or 10,
 		target = nil :: Model?,
 		destroyed = nil :: RBXScriptConnection?,
 	}
@@ -43,6 +50,6 @@ end
 
 Module.factory = World.factory(script.Name, Module)
 
-export type Chase = typeof(Module.create(...))
+export type Chase = typeof(Module.add(...))
 
 return Module

@@ -2,14 +2,11 @@ local Players = game:GetService("Players")
 local ServerScriptService = game:GetService 'ServerScriptService'
 
 local Schedules = require(ServerScriptService.schedules)
+
 local World = require(ServerScriptService.world)
 local Chase = require(ServerScriptService.components.chase)
 
-local Module = {}
-
-Module.range = 40
-
-Module.job = Schedules.heartbeat.job(function()
+return Schedules.tick.job(function()
 	for entity: Model, data in World.query { Chase.factory } do
 		local origin = entity:GetPivot()
 		local minDistance, target = math.huge, nil
@@ -27,7 +24,8 @@ Module.job = Schedules.heartbeat.job(function()
 			end
 		end
 
-		if not target or minDistance > Module.range then
+		local chase = data.chase :: Chase.Chase
+		if not target or minDistance > chase.range then
 			Chase.setTarget(entity, nil)
 			continue
 		end
@@ -35,5 +33,3 @@ Module.job = Schedules.heartbeat.job(function()
 		Chase.setTarget(entity, target)
 	end
 end)
-
-return Module

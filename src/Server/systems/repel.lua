@@ -1,33 +1,33 @@
+--!strict
+
 local ServerScriptService = game:GetService 'ServerScriptService'
 
 local Schedules = require(ServerScriptService.schedules)
+
 local World = require(ServerScriptService.world)
-local Follow = require(ServerScriptService.components.follow)
+local Move = require(ServerScriptService.components.move)
 local Repel = require(ServerScriptService.components.repel)
-local FollowSystem = require(ServerScriptService.systems.follow)
 
-local Module = {}
-
-Module.job = Schedules.heartbeat.job(function()
-	local repels = World.query { Repel.factory, Follow.factory }
+return Schedules.tick.job(function(deltaTime: number)
+	local repels = World.query { Repel.factory, Move.factory }
 	for entity: Model, data in repels do
-		local origin = entity:GetPivot()
+		local repel = data.repel :: Repel.Repel
+		repel.vectorForce.Force = Vector3.zero
+
+		local move = data.move :: Move.Move
+		local origin = move.attachment.WorldCFrame
 
 		for other: Model, otherData in repels do
 			if entity == other then
 				continue
 			end
 
-			local otherOrigin = other:GetPivot()
+			local otherMove = otherData.move :: Move.Move
+			local otherOrigin = otherMove.attachment.WorldCFrame
 			local delta = origin.Position - otherOrigin.Position
-			if delta.Magnitude > data.repel.range then
-				continue
+			if delta.Magnitude >= 1 then
+				repel.vectorForce.Force += delta.Unit * move.linearVelocity.MaxForce * Repel.force(repel, delta.Magnitude)
 			end
-
-			local force = delta.Unit * data.repel.force
-			otherData.follow.linearVelocity.VectorVelocity += force
 		end
 	end
-end, FollowSystem.job)
-
-return Module
+end)

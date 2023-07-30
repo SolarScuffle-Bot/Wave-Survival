@@ -1,24 +1,30 @@
 local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 local ServerScriptService = game:GetService 'ServerScriptService'
+
 local Enemy = require(ServerScriptService.components.enemy)
 local Repel = require(ServerScriptService.components.repel)
+local Move = require(ServerScriptService.components.move)
 
-local Enemies = ReplicatedStorage.Enemies
+local EnemiesFolder = ReplicatedStorage.Enemies
 
 local Module = {}
 
-Module.count = 0
+Module.enemyCount = 10
+Module.roundThread = nil
+Module.currentCount = 0
 
 function Module.startRound()
     Module.roundThread = task.defer(function()
-        Module.count = 10
+        Module.currentCount = Module.enemyCount
 
-        for i = 1, Module.count do
+        for i = 1, Module.currentCount do
             task.wait(1)
 
-            local entity = Enemies.Gooblet:Clone()
+            local entity = EnemiesFolder.Gooblet:Clone() :: Model
+            entity:PivotTo(entity:GetPivot() * CFrame.new(10 * i, 10 * i, 10 * i))
             entity.Parent = workspace
 
+            Move.factory.add(entity)
             Enemy.factory.add(entity)
             Repel.factory.add(entity)
 
@@ -30,8 +36,8 @@ function Module.startRound()
 end
 
 Module.added = Enemy.factory.removed:Connect(function()
-    Module.count -= 1
-    if Module.count <= 0 then
+    Module.currentCount -= 1
+    if Module.currentCount <= 0 then
         task.wait(5)
         Module.startRound()
     end

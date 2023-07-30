@@ -5,5 +5,6 @@ local Sandwich = require(Packages.Sandwich)
 local Module = {}
 
 Module.heartbeat = Sandwich.schedule()
+Module.tick = Sandwich.schedule()
 
 return Module
