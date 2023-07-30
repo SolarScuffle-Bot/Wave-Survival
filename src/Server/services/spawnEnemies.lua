@@ -18,7 +18,7 @@ assert(Goobler, 'Goobler model not found in Enemies folder')
 
 local Module = {}
 
-Module.enemyCount = 10
+Module.enemyCount = 100
 Module.roundThread = nil :: thread?
 Module.currentCount = 0
 
@@ -27,7 +27,7 @@ function Module.startRound()
 		Module.currentCount = Module.enemyCount
 
 		for i = 1, Module.currentCount do
-			task.wait(1)
+			task.wait(0.1)
 
 			local entity = Gooblet:Clone() :: Model
 			entity:PivotTo(entity:GetPivot() * CFrame.new(10 * i, 10 * i, 10 * i))

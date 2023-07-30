@@ -1,12 +1,12 @@
 --!strict
 
-local Players = game:GetService("Players")
+local Players = game:GetService 'Players'
 local ServerScriptService = game:GetService 'ServerScriptService'
 
 local Schedules = require(ServerScriptService.schedules)
 
-local World = require(ServerScriptService.world)
 local Chase = require(ServerScriptService.components.chase)
+local World = require(ServerScriptService.world)
 
 return Schedules.tick.job(function()
 	for entity: Model, data in World.query { Chase.factory } do

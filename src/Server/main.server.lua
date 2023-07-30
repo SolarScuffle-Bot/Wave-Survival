@@ -3,8 +3,23 @@
 local ServerScriptService = game:GetService 'ServerScriptService'
 
 do
-	local SpawnEnemies = require(ServerScriptService.systems.spawnEnemies)
+	local SpawnEnemies = require(ServerScriptService.services.spawnEnemies)
 	SpawnEnemies.startRound()
+end
+
+do
+	local Players = game:GetService 'Players'
+	local ToolService = require(ServerScriptService.services.tool)
+
+	local function playerAdded(player: Player)
+		player.CharacterAdded:Connect(function(character: Model)
+			ToolService.giveTool(player, 'Sniper')
+		end)
+	end
+
+	for _, player in Players:GetPlayers() do
+		playerAdded(player)
+	end
 end
 
 local RunService = game:GetService 'RunService'

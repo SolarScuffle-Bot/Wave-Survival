@@ -58,7 +58,7 @@ function Module.add(factory, entity: Model, model: Model, settings: {
 	}
 end
 
-function Module.remove(factory, entity: Model, chase: Chase)
+function Module.remove(factory, entity: Model, chase: Chase) -- remove cleans it up
 	Module.setTarget(entity, nil)
 	return nil
 end

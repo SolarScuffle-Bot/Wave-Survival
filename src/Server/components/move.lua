@@ -1,7 +1,8 @@
 --!strict
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 local ServerScriptService = game:GetService 'ServerScriptService'
+
 local World = require(ServerScriptService.world)
 
 local Connect = require(ReplicatedStorage.connect)
