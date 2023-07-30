@@ -18,6 +18,8 @@ end
 local Module = {}
 
 function Module.force(repel: Repel, distance: number)
+	--? https://www.desmos.com/calculator/mzydp6ugtp
+
 	local numerator = repel.range * (repel.threshold - distance)
 	local denominator = repel.threshold * (repel.threshold + distance)
 	return math.max(0, repel.force * numerator / denominator)
@@ -26,6 +28,7 @@ end
 function Module.add(factory, entity: Model, settings: {
 	range: number?,
 	force: number?,
+	maxForce: number?,
 	threshold: number?,
 }?)
 	local entityPrimary = entity.PrimaryPart
@@ -42,12 +45,14 @@ function Module.add(factory, entity: Model, settings: {
 	vectorForce.Parent = entityPrimary
 
 	local range = settings and settings.range or 20
-	local force = settings and settings.force or 2
+	local force = settings and settings.force or 1.5
+	local maxForce = settings and settings.maxForce or 10
 	local threshold = settings and settings.threshold or range
 
 	return {
 		range = range,
 		force = force,
+		maxForce = maxForce,
 		threshold = threshold,
 		vectorForce = vectorForce,
 		vectorDestroying = vectorForce.Destroying:Connect(function()

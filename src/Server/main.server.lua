@@ -1,17 +1,14 @@
+--!strict
+
 local ServerScriptService = game:GetService 'ServerScriptService'
-local RunService = game:GetService 'RunService'
-
-local Schedules = require(ServerScriptService.schedules)
-
-local systems = {}
-for _, system: ModuleScript in ServerScriptService.systems:GetChildren() do
-	systems[system.Name] = require(system)
-	warn(system.Name, systems[system.Name])
-end
 
 do
-	systems.spawnEnemies.startRound()
+	local SpawnEnemies = require(ServerScriptService.systems.spawnEnemies)
+	SpawnEnemies.startRound()
 end
+
+local RunService = game:GetService 'RunService'
+local Schedules = require(ServerScriptService.schedules)
 
 do
 	RunService.Heartbeat:Connect(Schedules.heartbeat.start)

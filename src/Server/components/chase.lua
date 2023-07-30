@@ -1,3 +1,5 @@
+--!strict
+
 local ServerScriptService = game:GetService 'ServerScriptService'
 local World = require(ServerScriptService.world)
 local Follow = require(ServerScriptService.components.follow)

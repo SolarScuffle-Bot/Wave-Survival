@@ -1,3 +1,5 @@
+--!strict
+
 local Players = game:GetService("Players")
 local ServerScriptService = game:GetService 'ServerScriptService'
 
@@ -12,7 +14,7 @@ return Schedules.tick.job(function()
 		local minDistance, target = math.huge, nil
 
 		for _, player in Players:GetPlayers() do
-			local character = player.Character
+			local character = player.Character :: Model
 			if not character then
 				continue
 			end

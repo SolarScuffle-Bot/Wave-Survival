@@ -1,3 +1,5 @@
+--!strict
+
 local ServerScriptService = game:GetService 'ServerScriptService'
 
 local Schedules = require(ServerScriptService.schedules)
