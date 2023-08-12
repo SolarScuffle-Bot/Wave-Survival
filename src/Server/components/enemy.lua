@@ -1,32 +1,34 @@
 --!strict
 
-local ServerScriptService = game:GetService 'ServerScriptService'
 local ReplicatedStorage = game:GetService 'ReplicatedStorage'
+local ServerScriptService = game:GetService 'ServerScriptService'
 
 local Connect = require(ReplicatedStorage.connect)
 
-local World = require(ServerScriptService.world)
 local Chase = require(ServerScriptService.components.chase)
 local Repel = require(ServerScriptService.components.repel)
+local World = require(ServerScriptService.world)
 
 local Module = {}
 
 function Module.add(factory, entity: Model)
 	local touchedConnections = {}
 
+	local function killPlayer(player: Player, character: Model)
+		local humanoid = character:FindFirstChildWhichIsA 'Humanoid' :: Humanoid?
+		warn(humanoid)
+		if not humanoid then
+			return
+		end
+
+		humanoid:TakeDamage(math.huge) -- This is where we get the behavior of enemies killing you when you touch them
+
+		entity:Destroy()
+	end
+
 	for _, descendant in entity:GetDescendants() do
 		if descendant:IsA 'BasePart' then
-			table.insert(touchedConnections, Connect.playerTouched(descendant, function(player: Player, character: Model)
-				local humanoid = character:FindFirstChildWhichIsA 'Humanoid' :: Humanoid?
-				warn(humanoid)
-				if not humanoid then
-					return
-				end
-
-				humanoid:TakeDamage(math.huge)
-
-				entity:Destroy()
-			end))
+			table.insert(touchedConnections, Connect.playerTouched(descendant, killPlayer))
 		end
 	end
 

@@ -1,10 +1,10 @@
 --!strict
 
-local ServerScriptService = game:GetService 'ServerScriptService'
 local ReplicatedStorage = game:GetService 'ReplicatedStorage'
+local ServerScriptService = game:GetService 'ServerScriptService'
 
-local World = require(ServerScriptService.world)
 local Follow = require(ServerScriptService.components.follow)
+local World = require(ServerScriptService.world)
 
 local Connect = require(ReplicatedStorage.connect)
 
@@ -43,11 +43,15 @@ function Module.setTarget(entity: Model, target: Model?)
 	end
 end
 
-function Module.add(factory, entity: Model, model: Model, settings: {
-	range: number?,
-	linearSpeed: number?,
-	angularSpeed: number?,
-}?)
+function Module.add(
+	factory,
+	entity: Model,
+	settings: {
+		range: number?,
+		linearSpeed: number?,
+		angularSpeed: number?,
+	}?
+)
 	return {
 		range = settings and settings.range or math.huge,
 		linearSpeed = settings and settings.linearSpeed or 10,

@@ -1,5 +1,5 @@
-local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 local CollectionService = game:GetService 'CollectionService'
+local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 
 local Packages = ReplicatedStorage:WaitForChild 'Packages'
 local Stew = require(Packages.Stew)

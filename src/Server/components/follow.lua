@@ -2,8 +2,8 @@
 
 local ServerScriptService = game:GetService 'ServerScriptService'
 
-local World = require(ServerScriptService.world)
 local Move = require(ServerScriptService.components.move)
+local World = require(ServerScriptService.world)
 
 local Module = {}
 

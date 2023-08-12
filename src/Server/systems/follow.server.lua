@@ -4,9 +4,9 @@ local ServerScriptService = game:GetService 'ServerScriptService'
 
 local Schedules = require(ServerScriptService.schedules)
 
-local World = require(ServerScriptService.world)
 local Follow = require(ServerScriptService.components.follow)
 local Move = require(ServerScriptService.components.move)
+local World = require(ServerScriptService.world)
 
 return Schedules.tick.job(function()
 	for entity: Model, data in World.query { Follow.factory, Move.factory } do

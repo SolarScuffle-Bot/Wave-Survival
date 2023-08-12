@@ -63,7 +63,7 @@ local function disconnect(connection: Connection)
 		task.cancel(connection)
 	elseif typeof(connection) == 'Instance' then
 		pcall(connection.Destroy, connection)
-	elseif typeof(connection) == 'table' and connection.Disconnect then
+	elseif typeof(connection) == 'table' and typeof(connection.Disconnect) == 'function' then
 		connection:Disconnect()
 	end
 end

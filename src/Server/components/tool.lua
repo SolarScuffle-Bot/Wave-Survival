@@ -1,19 +1,19 @@
 --!strict
 
-local CollectionService = game:GetService("CollectionService")
-local ServerScriptService = game:GetService("ServerScriptService")
+local CollectionService = game:GetService 'CollectionService'
+local ServerScriptService = game:GetService 'ServerScriptService'
 
 local World = require(ServerScriptService.world)
 
 local Module = {}
 
 function Module.add(factory, entity: Model)
-	CollectionService:AddTag(entity, "Tool")
+	CollectionService:AddTag(entity, 'Tool')
 	return true
 end
 
 function Module.remove(factory, entity: Model)
-	CollectionService:RemoveTag(entity, "Tool")
+	CollectionService:RemoveTag(entity, 'Tool')
 	return true
 end
 

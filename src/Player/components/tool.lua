@@ -5,20 +5,16 @@ local World = require(ReplicatedStorage.world)
 
 local Module = {}
 
-function Module.equip()
+function Module.equip() end
 
-end
-
-function Module.unequip()
-
-end
+function Module.unequip() end
 
 function Module.add(factory, entity: Tool)
-	warn('add tool')
+	warn 'add tool'
 end
 
 function Module.remove(factory, entity: Tool)
-	warn('remove tool')
+	warn 'remove tool'
 end
 
 Module.factory = World.factory(script.Name, Module)

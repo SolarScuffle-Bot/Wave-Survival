@@ -1,10 +1,10 @@
 --!strict
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 local ServerScriptService = game:GetService 'ServerScriptService'
 
-local World = require(ServerScriptService.world)
 local Move = require(ServerScriptService.components.move)
+local World = require(ServerScriptService.world)
 
 local Connect = require(ReplicatedStorage.connect)
 
@@ -28,12 +28,16 @@ function Module.force(repel: Repel, distance: number)
 	return math.max(0, repel.force * numerator / denominator)
 end
 
-function Module.add(factory, entity: Model, settings: {
-	range: number?,
-	force: number?,
-	maxForce: number?,
-	threshold: number?,
-}?)
+function Module.add(
+	factory,
+	entity: Model,
+	settings: {
+		range: number?,
+		force: number?,
+		maxForce: number?,
+		threshold: number?,
+	}?
+)
 	local entityPrimary = entity.PrimaryPart
 	if not entityPrimary then
 		error('No primary part found for entity ' .. entity:GetFullName())

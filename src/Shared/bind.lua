@@ -130,7 +130,7 @@ function Module.bindTool(tagName: string, toolModule: ToolModule)
 			continue
 		end
 
-		if tool:IsA("Tool") then
+		if tool:IsA 'Tool' then
 			added(tool)
 		end
 	end

@@ -7,8 +7,10 @@ do
 	SpawnEnemies.startRound()
 end
 
+-- Not done yet, just gives players tools (THAT DON"T DO ANYTHING :SOB:)
 do
 	local Players = game:GetService 'Players'
+	local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 	local ToolService = require(ServerScriptService.services.tool)
 
 	local function playerAdded(player: Player)

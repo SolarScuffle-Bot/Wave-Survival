@@ -4,9 +4,9 @@ local ServerScriptService = game:GetService 'ServerScriptService'
 
 local Schedules = require(ServerScriptService.schedules)
 
-local World = require(ServerScriptService.world)
 local Move = require(ServerScriptService.components.move)
 local Repel = require(ServerScriptService.components.repel)
+local World = require(ServerScriptService.world)
 
 return Schedules.tick.job(function(deltaTime: number)
 	local repels = World.query { Repel.factory, Move.factory }
@@ -32,6 +32,7 @@ return Schedules.tick.job(function(deltaTime: number)
 			end
 		end
 
+		-- Floating point numbers suck, so don't let it get crazy
 		if force.Magnitude < 1e-5 then
 			repel.vectorForce.Force = Vector3.zero
 			continue

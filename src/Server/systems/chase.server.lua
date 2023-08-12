@@ -9,7 +9,9 @@ local Chase = require(ServerScriptService.components.chase)
 local World = require(ServerScriptService.world)
 
 return Schedules.tick.job(function()
-	for entity: Model, data in World.query { Chase.factory } do
+	local chaseEntities = World.query { Chase.factory }
+	for entity: Model, data in chaseEntities do
+		-- Get the nearest entity
 		local origin = entity:GetPivot()
 		local minDistance, target = math.huge, nil
 
@@ -26,6 +28,7 @@ return Schedules.tick.job(function()
 			end
 		end
 
+		-- Actually chase it now
 		local chase = data.chase :: Chase.Chase
 		if not target or minDistance > chase.range then
 			Chase.setTarget(entity, nil)
