@@ -21,6 +21,10 @@ function Module.add(factory, entity: Model)
 			return
 		end
 
+		if humanoid.Health <= 0 or humanoid:GetState() == Enum.HumanoidStateType.Dead then
+			return
+		end
+
 		humanoid:TakeDamage(math.huge) -- This is where we get the behavior of enemies killing you when you touch them
 
 		entity:Destroy()
