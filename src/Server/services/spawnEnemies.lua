@@ -22,27 +22,29 @@ Module.enemyCount = 100
 Module.roundThread = nil :: thread?
 Module.currentCount = 0
 
+local function spawnEnemies()
+	Module.currentCount = Module.enemyCount
+
+	for i = 1, Module.currentCount do
+		task.wait(0.1)
+
+		local entity = Gooblet:Clone() :: Model
+		entity:PivotTo(entity:GetPivot() * CFrame.new(10 * i, 10 * i, 10 * i))
+
+		Move.factory.add(entity)
+		Enemy.factory.add(entity)
+		Repel.factory.add(entity)
+
+		entity.Parent = workspace
+
+		print('spawning enemy', i, entity:GetFullName())
+	end
+
+	Module.roundThread = nil
+end
+
 function Module.startRound()
-	Module.roundThread = task.defer(function()
-		Module.currentCount = Module.enemyCount
-
-		for i = 1, Module.currentCount do
-			task.wait(0.1)
-
-			local entity = Gooblet:Clone() :: Model
-			entity:PivotTo(entity:GetPivot() * CFrame.new(10 * i, 10 * i, 10 * i))
-
-			Move.factory.add(entity)
-			Enemy.factory.add(entity)
-			Repel.factory.add(entity)
-
-            entity.Parent = workspace
-
-			print('spawning enemy', i, entity:GetFullName())
-		end
-
-		Module.roundThread = nil
-	end)
+	Module.roundThread = task.defer(spawnEnemies)
 end
 
 Module.added = Enemy.factory.removed:Connect(function(entity: Model, enemy: Enemy.Enemy)

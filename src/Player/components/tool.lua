@@ -5,6 +5,14 @@ local World = require(ReplicatedStorage.world)
 
 local Module = {}
 
+function Module.equip()
+
+end
+
+function Module.unequip()
+
+end
+
 function Module.add(factory, entity: Tool)
 	warn('add tool')
 end

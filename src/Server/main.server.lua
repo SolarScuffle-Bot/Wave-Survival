@@ -15,7 +15,13 @@ do
 		player.CharacterAdded:Connect(function(character: Model)
 			ToolService.giveTool(player, 'Sniper')
 		end)
+
+		if player.Character then
+			ToolService.giveTool(player, 'Sniper')
+		end
 	end
+
+	Players.PlayerAdded:Connect(playerAdded)
 
 	for _, player in Players:GetPlayers() do
 		playerAdded(player)
@@ -30,14 +36,15 @@ do
 end
 
 do
-	local TICKS_PER_SECOND = 3 --? Surprisingly more than enough!
+	local TICK_FREQUENCY = 3 --? Surprisingly more than enough!
+	local TICK_PERIOD = 1 / TICK_FREQUENCY
 
 	local tickBuffer = 0
 	RunService.Heartbeat:Connect(function(deltaTime: number)
 		tickBuffer += deltaTime
-		if tickBuffer >= 1 / TICKS_PER_SECOND then
+		if tickBuffer >= TICK_PERIOD then
 			Schedules.tick.start(tickBuffer)
-			tickBuffer = 0
+			tickBuffer %= TICK_PERIOD
 		end
 	end)
 end
