@@ -1,11 +1,9 @@
 --!strict
 
-local ReplicatedStorage = game:GetService 'ReplicatedStorage'
-local ServerScriptService = game:GetService 'ServerScriptService'
-
-local States = require(ReplicatedStorage.states)
-
 do
+	local ReplicatedStorage = game:GetService 'ReplicatedStorage'
+	local States = require(ReplicatedStorage.states)
+
 	States.switch(States.states.intermission)
 
 	task.delay(5, function()
@@ -21,24 +19,26 @@ do
 	end)
 end
 
--- Not done yet, just gives players tools (THAT DON"T DO ANYTHING :SOB:)
 do
-	
-end
+	local ServerStorage = game:GetService 'ServerStorage'
+	local Schedules = require(ServerStorage.schedules)
+	local RunService = game:GetService 'RunService'
 
-local RunService = game:GetService 'RunService'
-local Schedules = require(ServerScriptService.schedules)
-
-do
 	RunService.Heartbeat:Connect(Schedules.heartbeat.start)
 end
 
 do
+	local ServerStorage = game:GetService 'ServerStorage'
+	local Schedules = require(ServerStorage.schedules)
+	local RunService = game:GetService 'RunService'
+
 	local TICK_FREQUENCY = 3 --? Surprisingly more than enough!
 	local TICK_PERIOD = 1 / TICK_FREQUENCY
 
 	local tickBuffer = 0
 	RunService.Heartbeat:Connect(function(deltaTime: number)
+		Schedules.tick.start(deltaTime)
+
 		tickBuffer += deltaTime
 		if tickBuffer >= TICK_PERIOD then
 			Schedules.tick.start(tickBuffer)

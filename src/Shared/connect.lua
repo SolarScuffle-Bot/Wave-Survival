@@ -1,7 +1,6 @@
 --!strict
 
 local Players = game:GetService 'Players'
-local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 
 --[=[
 	@class Connect
@@ -58,14 +57,14 @@ end
 export type Connection = RBXScriptConnection | { Disconnect: (any) -> () } | thread | Instance
 
 local function disconnect(connection: Connection)
-	if type(connection) == 'thread' then
+	if typeof(connection) == 'RBXScriptConnection' or (typeof(connection) == 'table' and type(connection.Disconnect) == 'function') then
+		(connection :: RBXScriptConnection):Disconnect()
+	elseif typeof(connection) == 'thread' then
 		task.cancel(connection)
 	elseif typeof(connection) == 'Instance' then
 		pcall(connection.Destroy, connection)
-	elseif type(connection) == 'function' then
+	elseif typeof(connection) == 'function' then
 		connection()
-	elseif type(connection) == 'table' and type(connection.Disconnect) == 'function' then
-		connection:Disconnect()
 	end
 end
 

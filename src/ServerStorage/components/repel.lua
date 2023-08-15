@@ -20,7 +20,7 @@ end
 
 local Module = {}
 
-function Module.force(repel: Repel, distance: number)
+function Module.force(repel: Component, distance: number)
 	--? https://www.desmos.com/calculator/mzydp6ugtp
 
 	local numerator = repel.range * (repel.threshold - distance)
@@ -43,7 +43,7 @@ function Module.add(
 		error('No primary part found for entity ' .. entity:GetFullName())
 	end
 
-	local move = World.get(entity).move :: Move.Move?
+	local move = World.get(entity).move :: Move.Component?
 	if not move then
 		error('No move component found for entity ' .. entity:GetFullName())
 	end
@@ -68,13 +68,13 @@ function Module.add(
 	}
 end
 
-function Module.remove(factory, entity: Model, repel: Repel)
+function Module.remove(factory, entity: Model, repel: Component)
 	Connect.disconnect(repel)
 	return nil
 end
 
 Module.factory = World.factory(script.Name, Module)
 
-export type Repel = typeof(Module.add(...))
+export type Component = typeof(Module.add(...))
 
 return Module

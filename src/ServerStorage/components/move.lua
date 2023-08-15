@@ -65,7 +65,7 @@ function Module.add(factory: typeof(Module.factory), entity: Model)
 	}
 end
 
-function Module.remove(factory, entity: Model, move: Move)
+function Module.remove(factory, entity: Model, move: Component)
 	Connect.disconnect(move)
 	-- move.linearDestroying:Disconnect()
 	-- move.alignDestroying:Disconnect()
@@ -87,6 +87,6 @@ end
 
 Module.factory = World.factory(script.Name, Module)
 
-export type Move = typeof(Module.add(...))
+export type Component = typeof(Module.add(...))
 
 return Module

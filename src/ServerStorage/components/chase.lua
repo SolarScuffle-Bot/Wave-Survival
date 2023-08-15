@@ -11,7 +11,7 @@ local Connect = require(ReplicatedStorage.connect)
 local Module = {}
 
 function Module.setTarget(entity: Model, target: Model?)
-	local chase = World.get(entity).chase :: Chase?
+	local chase = World.get(entity).chase :: Component?
 	if not chase then
 		return
 	end
@@ -62,13 +62,13 @@ function Module.add(
 	}
 end
 
-function Module.remove(factory, entity: Model, chase: Chase) -- remove cleans it up
+function Module.remove(factory, entity: Model, chase: Component) -- remove cleans it up
 	Module.setTarget(entity, nil)
 	return nil
 end
 
 Module.factory = World.factory(script.Name, Module)
 
-export type Chase = typeof(Module.add(...))
+export type Component = typeof(Module.add(...))
 
 return Module

@@ -53,7 +53,7 @@ function Module.add(factory, entity: Model)
 	}
 end
 
-function Module.remove(factory, entity: Model, enemy: Enemy)
+function Module.remove(factory, entity: Model, enemy: Component)
 	Connect.disconnect(enemy.touchedConnections)
 
 	Repel.factory.remove(entity)
@@ -64,10 +64,10 @@ end
 
 Module.factory = World.factory(script.Name, Module)
 
-function Module.factory.removed(entity: Model, enemy: Enemy)
+function Module.factory.removed(entity: Model, enemy: Component)
 	Module.signals.killed:Fire(entity)
 end
 
-export type Enemy = typeof(Module.add(...))
+export type Component = typeof(Module.add(...))
 
 return Module

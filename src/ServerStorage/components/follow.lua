@@ -18,10 +18,10 @@ function Module.add(factory, entity: Model, target: Model, speed: number?)
 	}
 end
 
-function Module.remove(factory, entity: Model, follow: Follow)
+function Module.remove(factory, entity: Model, follow: Component)
 	follow.targetDestroying:Disconnect()
 
-	local move = World.get(entity).move :: Move.Move?
+	local move = World.get(entity).move :: Move.Component?
 	if move then
 		move.linearVelocity.VectorVelocity = Vector3.zero
 	end
@@ -31,6 +31,6 @@ end
 
 Module.factory = World.factory(script.Name, Module)
 
-export type Follow = typeof(Module.add(...))
+export type Component = typeof(Module.add(...))
 
 return Module

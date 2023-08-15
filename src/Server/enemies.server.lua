@@ -52,7 +52,7 @@ local function startRound()
 end
 
 local function start()
-	connections.enemyDied = Enemy.signals.killed.Event:Connect(function(entity: Model, enemy: Enemy.Enemy)
+	connections.enemyDied = Enemy.signals.killed.Event:Connect(function(entity: Model, enemy: Enemy.Component)
 		currentCount -= 1
 		if currentCount <= 0 then
 			task.wait(5)

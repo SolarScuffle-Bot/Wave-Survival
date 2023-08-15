@@ -2,10 +2,9 @@
 
 local Players = game:GetService 'Players'
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ServerScriptService = game:GetService 'ServerScriptService'
 local ServerStorage = game:GetService 'ServerStorage'
 
-local Schedules = require(ServerScriptService.schedules)
+local Schedules = require(ServerStorage.schedules)
 
 local Chase = require(ServerStorage.components.chase)
 local World = require(ReplicatedStorage.world)
@@ -31,7 +30,7 @@ return Schedules.tick.job(function()
 		end
 
 		-- Actually chase it now
-		local chase = data.chase :: Chase.Chase
+		local chase = data.chase :: Chase.Component
 		if not target or minDistance > chase.range then
 			Chase.setTarget(entity, nil)
 			continue

@@ -6,9 +6,9 @@ local Stew = require(Packages.Stew)
 
 local Connect = require(ReplicatedStorage.connect)
 
-local world = Stew.world()
-
 local entityConnections = {}
+
+local world = Stew.world()
 
 function world.spawned(entity)
 	if typeof(entity) == 'Instance' then
@@ -23,6 +23,7 @@ end
 
 function world.killed(entity)
 	if typeof(entity) == 'Instance' then
+		Connect.disconnect(entityConnections, entity)
 		CollectionService:RemoveTag(entity, 'Entity')
 	end
 end

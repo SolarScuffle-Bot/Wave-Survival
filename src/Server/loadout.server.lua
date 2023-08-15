@@ -1,11 +1,11 @@
 local Players = game:GetService 'Players'
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ServerStorage = game:GetService("ServerStorage")
+local ReplicatedStorage = game:GetService 'ReplicatedStorage'
+local ServerStorage = game:GetService 'ServerStorage'
 
 local Connect = require(ReplicatedStorage.connect)
 local States = require(ReplicatedStorage.states)
 
-local ToolService = require(ServerStorage.util.tool)
+local Tool = require(ServerStorage.components.tool)
 
 local connections = {} :: {
 	playerAdded: RBXScriptConnection?,
@@ -15,7 +15,7 @@ local connections = {} :: {
 
 local function playerAdded(player: Player)
 	local function characterAdded(character: Model)
-		ToolService.giveTool(player, 'Sniper')
+		Tool.giveTool(player, 'Sniper')
 	end
 
 	connections[player] = player.CharacterAdded:Connect(characterAdded)
@@ -26,7 +26,7 @@ local function playerAdded(player: Player)
 end
 
 local function playerRemoving(player: Player)
-	ToolService.removeTool(player, 'Sniper')
+	Tool.removeTool(player, 'Sniper')
 end
 
 local function start()
