@@ -1,12 +1,12 @@
 --!strict
 
 local ReplicatedStorage = game:GetService 'ReplicatedStorage'
-local ServerScriptService = game:GetService 'ServerScriptService'
-
-local Move = require(ServerScriptService.components.move)
-local World = require(ServerScriptService.world)
+local ServerStorage = game:GetService 'ServerStorage'
 
 local Connect = require(ReplicatedStorage.connect)
+
+local Move = require(ServerStorage.components.move)
+local World = require(ReplicatedStorage.world)
 
 local function newVectorForce(attachment: Attachment)
 	local vectorForce = Instance.new 'VectorForce'

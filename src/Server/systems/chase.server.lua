@@ -1,12 +1,14 @@
 --!strict
 
 local Players = game:GetService 'Players'
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService 'ServerScriptService'
+local ServerStorage = game:GetService 'ServerStorage'
 
 local Schedules = require(ServerScriptService.schedules)
 
-local Chase = require(ServerScriptService.components.chase)
-local World = require(ServerScriptService.world)
+local Chase = require(ServerStorage.components.chase)
+local World = require(ReplicatedStorage.world)
 
 return Schedules.tick.job(function()
 	local chaseEntities = World.query { Chase.factory }

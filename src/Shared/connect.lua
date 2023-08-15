@@ -2,7 +2,6 @@
 
 local Players = game:GetService 'Players'
 local ReplicatedStorage = game:GetService 'ReplicatedStorage'
-local Signal = require(ReplicatedStorage.Packages.Signal)
 
 --[=[
 	@class Connect
@@ -56,14 +55,16 @@ function Module.playerClicked(detector: ClickDetector, callback: (player: Player
 	return detector.MouseClick:Connect(callback)
 end
 
-export type Connection = RBXScriptConnection | Signal.ScriptConnection | thread | Instance
+export type Connection = RBXScriptConnection | { Disconnect: (any) -> () } | thread | Instance
 
 local function disconnect(connection: Connection)
 	if type(connection) == 'thread' then
 		task.cancel(connection)
 	elseif typeof(connection) == 'Instance' then
 		pcall(connection.Destroy, connection)
-	elseif typeof(connection) == 'table' and typeof(connection.Disconnect) == 'function' then
+	elseif type(connection) == 'function' then
+		connection()
+	elseif type(connection) == 'table' and type(connection.Disconnect) == 'function' then
 		connection:Disconnect()
 	end
 end

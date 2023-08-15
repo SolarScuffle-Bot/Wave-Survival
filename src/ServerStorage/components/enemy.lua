@@ -1,15 +1,19 @@
 --!strict
 
 local ReplicatedStorage = game:GetService 'ReplicatedStorage'
-local ServerScriptService = game:GetService 'ServerScriptService'
+local ServerStorage = game:GetService 'ServerStorage'
 
 local Connect = require(ReplicatedStorage.connect)
 
-local Chase = require(ServerScriptService.components.chase)
-local Repel = require(ServerScriptService.components.repel)
-local World = require(ServerScriptService.world)
+local Chase = require(ServerStorage.components.chase)
+local Repel = require(ServerStorage.components.repel)
+local World = require(ReplicatedStorage.world)
 
 local Module = {}
+
+Module.signals = {
+	killed = Instance.new 'BindableEvent',
+}
 
 function Module.add(factory, entity: Model)
 	local touchedConnections = {}
@@ -59,6 +63,10 @@ function Module.remove(factory, entity: Model, enemy: Enemy)
 end
 
 Module.factory = World.factory(script.Name, Module)
+
+function Module.factory.removed(entity: Model, enemy: Enemy)
+	Module.signals.killed:Fire(entity)
+end
 
 export type Enemy = typeof(Module.add(...))
 

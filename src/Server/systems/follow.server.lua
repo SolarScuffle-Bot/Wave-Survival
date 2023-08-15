@@ -1,12 +1,14 @@
 --!strict
 
+local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 local ServerScriptService = game:GetService 'ServerScriptService'
+local ServerStorage = game:GetService 'ServerStorage'
 
 local Schedules = require(ServerScriptService.schedules)
 
-local Follow = require(ServerScriptService.components.follow)
-local Move = require(ServerScriptService.components.move)
-local World = require(ServerScriptService.world)
+local Follow = require(ServerStorage.components.follow)
+local Move = require(ServerStorage.components.move)
+local World = require(ReplicatedStorage.world)
 
 return Schedules.tick.job(function()
 	for entity: Model, data in World.query { Follow.factory, Move.factory } do

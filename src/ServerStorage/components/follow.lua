@@ -1,9 +1,10 @@
 --!strict
 
-local ServerScriptService = game:GetService 'ServerScriptService'
+local ReplicatedStorage = game:GetService 'ReplicatedStorage'
+local ServerStorage = game:GetService 'ServerStorage'
 
-local Move = require(ServerScriptService.components.move)
-local World = require(ServerScriptService.world)
+local Move = require(ServerStorage.components.move)
+local World = require(ReplicatedStorage.world)
 
 local Module = {}
 

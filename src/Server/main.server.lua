@@ -1,33 +1,29 @@
 --!strict
 
+local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 local ServerScriptService = game:GetService 'ServerScriptService'
 
+local States = require(ReplicatedStorage.states)
+
 do
-	local SpawnEnemies = require(ServerScriptService.services.spawnEnemies)
-	SpawnEnemies.startRound()
+	States.switch(States.states.intermission)
+
+	task.delay(5, function()
+		States.switch(States.states.waves)
+	end)
+
+	task.delay(7, function()
+		States.switch(States.states.intermission)
+	end)
+
+	task.delay(9, function()
+		States.switch(States.states.waves)
+	end)
 end
 
 -- Not done yet, just gives players tools (THAT DON"T DO ANYTHING :SOB:)
 do
-	local Players = game:GetService 'Players'
-	local ReplicatedStorage = game:GetService 'ReplicatedStorage'
-	local ToolService = require(ServerScriptService.services.tool)
-
-	local function playerAdded(player: Player)
-		player.CharacterAdded:Connect(function(character: Model)
-			ToolService.giveTool(player, 'Sniper')
-		end)
-
-		if player.Character then
-			ToolService.giveTool(player, 'Sniper')
-		end
-	end
-
-	Players.PlayerAdded:Connect(playerAdded)
-
-	for _, player in Players:GetPlayers() do
-		playerAdded(player)
-	end
+	
 end
 
 local RunService = game:GetService 'RunService'

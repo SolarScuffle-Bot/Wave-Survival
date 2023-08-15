@@ -1,12 +1,14 @@
 --!strict
 
+local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 local ServerScriptService = game:GetService 'ServerScriptService'
+local ServerStorage = game:GetService 'ServerStorage'
 
 local Schedules = require(ServerScriptService.schedules)
 
-local Move = require(ServerScriptService.components.move)
-local Repel = require(ServerScriptService.components.repel)
-local World = require(ServerScriptService.world)
+local Move = require(ServerStorage.components.move)
+local Repel = require(ServerStorage.components.repel)
+local World = require(ReplicatedStorage.world)
 
 return Schedules.tick.job(function(deltaTime: number)
 	local repels = World.query { Repel.factory, Move.factory }

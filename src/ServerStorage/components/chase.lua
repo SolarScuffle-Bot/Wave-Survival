@@ -1,10 +1,10 @@
 --!strict
 
 local ReplicatedStorage = game:GetService 'ReplicatedStorage'
-local ServerScriptService = game:GetService 'ServerScriptService'
+local ServerStorage = game:GetService 'ServerStorage'
 
-local Follow = require(ServerScriptService.components.follow)
-local World = require(ServerScriptService.world)
+local Follow = require(ServerStorage.components.follow)
+local World = require(ReplicatedStorage.world)
 
 local Connect = require(ReplicatedStorage.connect)
 

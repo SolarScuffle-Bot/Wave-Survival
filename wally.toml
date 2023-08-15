@@ -5,7 +5,5 @@ registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 
 [dependencies]
-Signal = "lucasmzreal/fastsignal@10.2.1"
-Net = "ffrostflame/bridgenet@2.0.0-rc4"
-Stew = "data-oriented-house/rbxstew@0.2.12"
+Stew = "data-oriented-house/rbxstew@0.2.13"
 Sandwich = "data-oriented-house/sandwich@2.1.0"
