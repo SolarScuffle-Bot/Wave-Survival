@@ -40,14 +40,6 @@ function Module.add(factory, entity: Model)
 		end
 	end
 
-	task.defer(function()
-		-- Though not true, I'll assume all enemies just follow the player
-		Chase.factory.add(entity)
-
-		-- And I want them to repel eachother
-		Repel.factory.add(entity)
-	end)
-
 	return {
 		touchedConnections = touchedConnections,
 	}
@@ -63,6 +55,14 @@ function Module.remove(factory, entity: Model, enemy: Component)
 end
 
 Module.factory = World.factory(script.Name, Module)
+
+function Module.factory.added(entity: Model, enemy: Component)
+	-- Though not true, I'll assume all enemies just follow the player
+	Chase.factory.add(entity)
+
+	-- And I want them to repel eachother
+	Repel.factory.add(entity)
+end
 
 function Module.factory.removed(entity: Model, enemy: Component)
 	Module.signals.killed:Fire(entity)
