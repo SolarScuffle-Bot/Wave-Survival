@@ -43,32 +43,31 @@ function Module.setTarget(entity: Model, target: Model?)
 	end
 end
 
-function Module.add(
-	factory,
-	entity: Model,
-	settings: {
-		range: number?,
-		linearSpeed: number?,
-		angularSpeed: number?,
-	}?
-)
-	return {
-		range = settings and settings.range or math.huge,
-		linearSpeed = settings and settings.linearSpeed or 10,
-		angularSpeed = settings and settings.angularSpeed or 10,
-		target = nil :: Model?,
-		destroyed = nil :: RBXScriptConnection?,
-		died = nil :: RBXScriptConnection?,
-	}
-end
+Module.factory = World.factory(script.Name, {
+	add = function(
+		factory,
+		entity: Model,
+		settings: {
+			range: number?,
+			linearSpeed: number?,
+			angularSpeed: number?,
+		}?
+	)
+		return {
+			range = settings and settings.range or math.huge,
+			linearSpeed = settings and settings.linearSpeed or 10,
+			angularSpeed = settings and settings.angularSpeed or 10,
+			target = nil :: Model?,
+			destroyed = nil :: RBXScriptConnection?,
+			died = nil :: RBXScriptConnection?,
+		}
+	end,
 
-function Module.remove(factory, entity: Model, chase: Component) -- remove cleans it up
-	Module.setTarget(entity, nil)
-	return nil
-end
+	remove = function(factory, entity: Model, chase: Component)
+		Module.setTarget(entity, nil)
+	end,
+})
 
-Module.factory = World.factory(script.Name, Module)
-
-export type Component = typeof(Module.add(...))
+export type Component = typeof(Module.factory.add(...))
 
 return Module
