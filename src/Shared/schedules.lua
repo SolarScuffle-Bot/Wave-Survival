@@ -7,4 +7,6 @@ local Module = {}
 Module.heartbeat = Sandwich.schedule()
 Module.tick = Sandwich.schedule()
 
+Module.shoot = Sandwich.schedule()
+
 return Module

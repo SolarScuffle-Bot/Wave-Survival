@@ -2,28 +2,26 @@ local CollectionService = game:GetService 'CollectionService'
 local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 
 local Connect = require(ReplicatedStorage.connect)
-
 local World = require(ReplicatedStorage.world)
 
 local Module = {}
 
-function Module.add(factory, entity: Tool)
-	warn('add tool' .. entity.Name)
+Module.factory = World.factory(script.Name, {
+	add = function(factory, entity: Tool)
+		
+		return true
+	end,
 
+	remove = function(factory, entity: Tool, component: Component)
+	end,
+})
 
+Module.added = CollectionService:GetInstanceAddedSignal(script.Name):Connect(Module.factory.add)
+Module.removed = CollectionService:GetInstanceRemovedSignal(script.Name):Connect(Module.factory.remove)
+for _, tool in CollectionService:GetTagged(script.Name) do
+	Module.factory.add(tool)
 end
 
-function Module.remove(factory, entity: Tool, component: Component)
-	warn('remove tool' .. entity.Name)
-
-	
-end
-
-Module.factory = World.factory(script.Name, Module)
-
-Module.added = CollectionService:GetInstanceAddedSignal('tool'):Connect(Module.factory.add)
-Module.removed = CollectionService:GetInstanceRemovedSignal('tool'):Connect(Module.factory.remove)
-
-export type Component = typeof(Module.add(...))
+export type Component = typeof(Module.factory.add(...))
 
 return Module

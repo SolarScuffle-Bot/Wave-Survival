@@ -3,7 +3,7 @@
 local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 local ServerStorage = game:GetService 'ServerStorage'
 
-local Schedules = require(ServerStorage.schedules)
+local Schedules = require(ReplicatedStorage.schedules)
 
 local Follow = require(ServerStorage.components.follow)
 local Move = require(ServerStorage.components.move)

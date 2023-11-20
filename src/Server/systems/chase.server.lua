@@ -4,7 +4,7 @@ local Players = game:GetService 'Players'
 local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 local ServerStorage = game:GetService 'ServerStorage'
 
-local Schedules = require(ServerStorage.schedules)
+local Schedules = require(ReplicatedStorage.schedules)
 
 local Chase = require(ServerStorage.components.chase)
 local World = require(ReplicatedStorage.world)

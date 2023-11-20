@@ -20,16 +20,9 @@ do
 end
 
 do
-	local ServerStorage = game:GetService 'ServerStorage'
-	local Schedules = require(ServerStorage.schedules)
-	local RunService = game:GetService 'RunService'
+	local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 
-	RunService.Heartbeat:Connect(Schedules.heartbeat.start)
-end
-
-do
-	local ServerStorage = game:GetService 'ServerStorage'
-	local Schedules = require(ServerStorage.schedules)
+	local Schedules = require(ReplicatedStorage.schedules)
 	local RunService = game:GetService 'RunService'
 
 	local TICK_FREQUENCY = 3 --? Surprisingly more than enough!
@@ -37,7 +30,7 @@ do
 
 	local tickBuffer = 0
 	RunService.Heartbeat:Connect(function(deltaTime: number)
-		Schedules.tick.start(deltaTime)
+		Schedules.heartbeat.start(deltaTime)
 
 		tickBuffer += deltaTime
 		if tickBuffer >= TICK_PERIOD then

@@ -17,26 +17,26 @@ function world.spawned(entity)
 			world.kill(entity)
 		end)
 
-		CollectionService:AddTag(entity, 'Entity')
+		entity:AddTag('Entity')
 	end
 end
 
 function world.killed(entity)
 	if typeof(entity) == 'Instance' then
 		Connect.disconnect(entityConnections, entity)
-		CollectionService:RemoveTag(entity, 'Entity')
+		entity:RemoveTag('Entity')
 	end
 end
 
 function world.added(factory, entity, component)
 	if typeof(entity) == 'Instance' then
-		CollectionService:AddTag(entity, factory.name)
+		entity:AddTag(factory.name)
 	end
 end
 
 function world.removed(factory, entity, component)
 	if typeof(entity) == 'Instance' then
-		CollectionService:RemoveTag(entity, factory.name)
+		entity:RemoveTag(factory.name)
 	end
 end
 
