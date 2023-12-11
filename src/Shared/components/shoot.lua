@@ -1,4 +1,3 @@
-local ContextActionService = game:GetService 'ContextActionService'
 local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 
 local World = require(ReplicatedStorage.world)

@@ -1,14 +1,13 @@
 local CollectionService = game:GetService 'CollectionService'
 local ReplicatedStorage = game:GetService 'ReplicatedStorage'
 
-local Connect = require(ReplicatedStorage.connect)
 local World = require(ReplicatedStorage.world)
 
 local Module = {}
 
 Module.factory = World.factory(script.Name, {
 	add = function(factory, entity: Tool)
-		
+
 		return true
 	end,
 

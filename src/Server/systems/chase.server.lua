@@ -30,7 +30,7 @@ return Schedules.tick.job(function()
 		end
 
 		-- Actually chase it now
-		local chase = data.chase :: Chase.Component
+		local chase = data[Chase.factory] :: Chase.Component
 		if not target or minDistance > chase.range then
 			Chase.setTarget(entity, nil)
 			continue

@@ -13,8 +13,8 @@ local repels = World.query { Repel.factory, Move.factory }
 
 return Schedules.tick.job(function(deltaTime: number)
 	for entity: Model, data in repels do
-		local repel = data.repel :: Repel.Component
-		local move = data.move :: Move.Component
+		local repel = data[Repel.factory] :: Repel.Component
+		local move = data[Move.factory] :: Move.Component
 		local origin = move.attachment.WorldCFrame
 
 		local force = Vector3.zero
